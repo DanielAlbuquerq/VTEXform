@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "cors": "^2.8.5",
-    "multiselect-react-dropdown": "^2.0.25"
-  }
-}
