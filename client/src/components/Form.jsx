@@ -15,20 +15,22 @@ import axios from "axios"
 export default function Form() {
   const [formData, setFormData] = useState({
   })
+
   const [errorMessage, setErrorMessage] = useState(null)
+
   const [loading, setLoading] = useState(false)
   const [checkedRadio, setCheckedRadio] = useState({
     op1: false,
     op2: false,
     op3: false
   })
-  const selected = false
-
+;
   // const selected = true
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value})
   }
   console.log(formData)
+
 
   const handleChangeRadio = (e) => {
     const {id} = e.target
@@ -53,35 +55,12 @@ export default function Form() {
       }
       setFormData({ ...formData, [e.target.checked && e.target.name]: e.target.value})
   }
-  // const code = btoa("daniel_developer@hotmail.com:Tempero123#")
-  // console.log(code)
-
-  // const myHeaders = new Headers()
-  // myHeaders.append("Content-Type", "application/json")
-  // myHeaders.append(
-  //   """"Authorization"""",
-  //   "Basic ZGFuaWVsX2RldmVsb3BlckBob3RtYWlsLmNvbTpUZW1wZXJvMTIzIw=="
-  // )
-  // console.log({ myHeaders })
-
-  // const handleSubmit = () => {}
-
-  // const data = JSON.stringify({
-  //   "ticket": {
-  //     "comment": {
-  //       "body": formData.comment
-  //     },
-  //     "priority": formData.input,
-  //     "subject": formData.subject
-  //   }
-  // });
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // try {
 
+  //////////////////////////////////REQUEST WITH FETCH////////////////////
+    // try {
     //   setLoading(true)
     //   setErrorMessage(null)
     //   const res = await fetch("https://vtex58.zendesk.com/api/v2/tickets", {
@@ -95,11 +74,9 @@ export default function Form() {
     //      body: JSON.stringify(data)
     //   })
 
-    //   console.log("submitted")
     //   const data = await res.json()
 
     //   if (data.success === false) {
-    //     console.log("false if-No submitted")
     //     setLoading(false)
     //     return setErrorMessage(data.message)
     //   }
@@ -112,7 +89,7 @@ export default function Form() {
     //   setErrorMessage(error.message)
     //   setLoading(false)
     // }
-////////////////////////////////////////////////////////////q
+///////////////////////////////////////
     
 var dataAxios = JSON.stringify({
       "ticket": {
@@ -147,9 +124,6 @@ var dataAxios = JSON.stringify({
         console.log(error);
       });
   }
-
-
-
 
   return (
     <div className='min-h-screen mt-20 flex md:justify-center flex-col md:flex-row md:item-center'>
@@ -268,21 +242,21 @@ var dataAxios = JSON.stringify({
               </Select>
             </div>
 
-            {selected === "Order" && (
+            {formData.subject === "Payments" && (
               <div className='flex max-w-md flex-col gap-4' id='checkbox'>
                 <div className='flex items-center gap-2'>
                   <Checkbox id='accept' defaultChecked />
                   <Label htmlFor='accept' className='flex'>
-                    xxxxxxxxx
+                  Transaction number 
                   </Label>
                 </div>
                 <div className='flex items-center gap-2'>
                   <Checkbox id='promotion' />
-                  <Label htmlFor='promotion'>xxxxxxxxxx</Label>
+                  <Label htmlFor='promotion'>Transaction status </Label>
                 </div>
                 <div className='flex items-center gap-2'>
                   <Checkbox id='age' />
-                  <Label htmlFor='age'>xxxxxxxxxxx</Label>
+                  <Label htmlFor='age'>Payment Acquirer </Label>
                 </div>
               </div>
             )}
