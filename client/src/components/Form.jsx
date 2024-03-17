@@ -15,9 +15,8 @@ import { Toast } from 'flowbite-react';
 export default function Form() {
   const [formData, setFormData] = useState({
   })
-
+  const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(false)
-
   const [loading, setLoading] = useState(false)
   const [checkedRadio, setCheckedRadio] = useState({
     op1: false,
@@ -73,7 +72,8 @@ export default function Form() {
       if (data.success === false) {
         console.log("false")
         setLoading(false)
-        return
+        setErrorMessage(data.message)
+        return 
       }
       if (formRes.ok) {
         setLoading(false)
@@ -325,6 +325,11 @@ export default function Form() {
               )}
             </Button>
           </form>
+          {errorMessage && <Toast className="bg-gray-200">
+        <h1 className="text-lg font-bold text-pink-500">ERROR </h1>
+          <div className="ml-3 text-sm rounded p-2" ><h1 className="text-lg font-bold text-black">{errorMessage}</h1></div>
+          <Toast.Toggle className="hover:text-pink-700" />
+        </Toast>}
           <div className='flex gap-2 text-sm mt-1'>
             <span>Have an account?</span>
             <Link className='text-blue-500' to='/'>
