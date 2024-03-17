@@ -9,6 +9,7 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/form/data" element={<Home />} />
         <Route path="/form" element={<Form />} />
       </Routes>
     </BrowserRouter>

@@ -10,13 +10,14 @@ import {
 } from "flowbite-react"
 import { Link } from "react-router-dom"
 import { useState } from "react"
-import axios from "axios"
+import { Toast } from 'flowbite-react';
 
 export default function Form() {
   const [formData, setFormData] = useState({
   })
 
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(false)
 
   const [loading, setLoading] = useState(false)
   const [checkedRadio, setCheckedRadio] = useState({
@@ -57,7 +58,33 @@ export default function Form() {
   }
 
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault()
+    console.log(formData)
+    try{
+      const formRes = await fetch ("/form/data",{
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(formData)
+      })
+
+      const data = await formRes.json()
+      console.log("ID from Request" + data)
+
+      if (data.success === false) {
+        console.log("false")
+        setLoading(false)
+        return setErrorMessage(data.message)
+      }
+      if (formRes.ok) {
+        setLoading(false)
+        console.log("RES.OK")
+        setSuccessMessage(data)
+      }
+    }catch(error){
+      setErrorMessage(error.message)
+      setLoading(false)
+    }
 
   //////////////////////////////////REQUEST WITH FETCH////////////////////
     // try {
@@ -91,38 +118,38 @@ export default function Form() {
     // }
 ///////////////////////////////////////
     
-var dataAxios = JSON.stringify({
-      "ticket": {
-        "comment": {
-          "body": formData.comment
-        },
-        "priority": formData.input,
-        "subject": formData.subject
-      }
-    });
+// var dataAxios = JSON.stringify({
+//       "ticket": {
+//         "comment": {
+//           "body": formData.comment
+//         },
+//         "priority": formData.input,
+//         "subject": formData.subject
+//       }
+//     });
     
-      var config = {
-        method: 'POST',
-        withCredentials: false,
-        url: 'https://vtex58.zendesk.com/api/v2/tickets',
-        headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Basic ZGFuaWVsX2RldmVsb3BlckBob3RtYWlsLmNvbTpUZW1wZXJvMTIzIw==', // Base64 encoded "username:password"
-        },
-        data : dataAxios,
-      };
+//       var config = {
+//         method: 'POST',
+//         withCredentials: false,
+//         url: 'https://vtex58.zendesk.com/api/v2/tickets',
+//         headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Basic ZGFuaWVsX2RldmVsb3BlckBob3RtYWlsLmNvbTpUZW1wZXJvMTIzIw==', // Base64 encoded "username:password"
+//         },
+//         data : dataAxios,
+//       };
       
-      axios(config)
-      .then(
-        function (response) {
-          setLoading(false)
-          console.log(JSON.stringify(response.data));
-        }
-      )
-      .catch(function (error) {
-        console.log("Catch Error")
-        console.log(error);
-      });
+//       axios(config)
+//       .then(
+//         function (response) {
+//           setLoading(false)
+//           console.log(JSON.stringify(response.data));
+//         }
+//       )
+//       .catch(function (error) {
+//         console.log("Catch Error")
+//         console.log(error);
+//       });
   }
 
   return (
@@ -143,6 +170,14 @@ var dataAxios = JSON.stringify({
             After fill these fields, click on Submit Ticket Button to create the
             ticket
           </p>
+
+        {successMessage && 
+        <Toast className="mt-20 bg-gray-200">
+        <h1 className="text-lg font-bold text-pink-500">Your ticket ID: </h1>
+          <div className="ml-3 text-sm rounded p-2" ><h1 className="text-lg font-bold text-black">{successMessage}</h1></div>
+          <Toast.Toggle className="hover:text-pink-700" />
+        </Toast>}
+
         </div>
         {/* right side */}
         <div className='flex-1'>
@@ -160,7 +195,6 @@ var dataAxios = JSON.stringify({
                 type='text'
                 placeholder='name@company.com'
                 id='email'
-                
               />
             </div>
 
