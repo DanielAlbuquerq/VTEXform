@@ -43,7 +43,6 @@ app.post("/form/data", async (req, res) =>{
       console.log("Catch Error")
       console.log(error);
     })
-    res.status(200).json(req.body.input)
 })
 
 

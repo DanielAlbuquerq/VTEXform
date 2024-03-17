@@ -16,7 +16,6 @@ export default function Form() {
   const [formData, setFormData] = useState({
   })
 
-  const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(false)
 
   const [loading, setLoading] = useState(false)
@@ -74,13 +73,15 @@ export default function Form() {
       if (data.success === false) {
         console.log("false")
         setLoading(false)
-        return setErrorMessage(data.message)
+        return
       }
       if (formRes.ok) {
         setLoading(false)
         console.log("RES.OK")
         setSuccessMessage(data)
-      }
+        return
+
+      } 
     }catch(error){
       setErrorMessage(error.message)
       setLoading(false)
